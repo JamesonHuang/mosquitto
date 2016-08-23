@@ -1,6 +1,6 @@
 .PHONY: all test clean reallyclean 08
 
-CFLAGS=-I../../../lib -I../../../src -Wall -Werror
+CFLAGS=-I../../../lib -I../../../src -Wall -Werror -lcrypt
 
 all : auth_plugin.so 08
 

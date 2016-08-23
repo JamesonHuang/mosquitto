@@ -4,12 +4,12 @@ Copyright (c) 2011-2014 Roger Light <roger@atchoo.org>
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the Eclipse Public License v1.0
 and Eclipse Distribution License v1.0 which accompany this distribution.
- 
+
 The Eclipse Public License is available at
    http://www.eclipse.org/legal/epl-v10.html
 and the Eclipse Distribution License is available at
   http://www.eclipse.org/org/documents/edl-v10.php.
- 
+
 Contributors:
    Roger Light - initial implementation and documentation.
 */
@@ -55,7 +55,7 @@ int mosquitto_security_module_init(struct mosquitto_db *db)
 	if(db->config->auth_plugin){
 		lib = LIB_LOAD(db->config->auth_plugin);
 		if(!lib){
-			_mosquitto_log_printf(NULL, MOSQ_LOG_ERR, 
+			_mosquitto_log_printf(NULL, MOSQ_LOG_ERR,
 					"Error: Unable to load auth plugin \"%s\".", db->config->auth_plugin);
 			LIB_ERROR();
 			return 1;
@@ -233,6 +233,8 @@ int mosquitto_acl_check(struct mosquitto_db *db, struct mosquitto *context, cons
 		{
 			username = context->username;
 		}
+
+        db->auth_plugin.user_data = (void *) context->address;
 		return db->auth_plugin.acl_check(db->auth_plugin.user_data, context->id, username, topic, access);
 	}
 }

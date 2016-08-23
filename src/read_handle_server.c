@@ -4,12 +4,12 @@ Copyright (c) 2009-2014 Roger Light <roger@atchoo.org>
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the Eclipse Public License v1.0
 and Eclipse Distribution License v1.0 which accompany this distribution.
- 
+
 The Eclipse Public License is available at
    http://www.eclipse.org/legal/epl-v10.html
 and the Eclipse Distribution License is available at
   http://www.eclipse.org/org/documents/edl-v10.php.
- 
+
 Contributors:
    Roger Light - initial implementation and documentation.
 */
@@ -150,7 +150,7 @@ int mqtt3_handle_connect(struct mosquitto_db *db, struct mosquitto *context)
 			goto handle_connect_error;
 		}
 		if((context->in_packet.command&0x0F) != 0x00){
-			/* Reserved flags not set to 0, must disconnect. */ 
+			/* Reserved flags not set to 0, must disconnect. */
 			_mosquitto_free(protocol_name);
 			rc = MOSQ_ERR_PROTOCOL;
 			goto handle_connect_error;
@@ -377,6 +377,7 @@ int mqtt3_handle_connect(struct mosquitto_db *db, struct mosquitto *context)
 	}else{
 #endif /* WITH_TLS */
 		if(username_flag){
+            db->auth_plugin.user_data = (void *) context->address;
 			rc = mosquitto_unpwd_check(db, username, password);
 			switch(rc){
 				case MOSQ_ERR_SUCCESS:
@@ -746,7 +747,7 @@ int mqtt3_handle_subscribe(struct mosquitto_db *db, struct mosquitto *context)
 	}
 	if(_mosquitto_send_suback(context, mid, payloadlen, payload)) rc = 1;
 	_mosquitto_free(payload);
-	
+
 #ifdef WITH_PERSISTENCE
 	db->persistence_changes++;
 #endif
